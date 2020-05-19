@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <title>Practica PAD</title>
+</head>
+
+<body>
+    <div class="main">
+        <header class="titulo">
+            <div class="menu">
+                <h1>Bienvenido</h1>
+                <h3>Esto es una prática para la asignatura de PAD.</h3>
+            </div>
+        </header>
+
+        <div id="cuerpo" class="cuerpo">
+            <div class="Añadir">
+                <button id="buttonAñadir">Añadir Tarea</button>
+                <div id="divAñadir">
+                    <input type="text" name="añadirTarea" id="textAñadir" placeholder="Nueva Tarea">
+                    <div class="buttonsAñadir">
+                        <button id="guardarAñadir" class="buttonAñadirTarea"> Guardar</button>
+                        <button id="cancelarAñadir" class="buttonAñadirTarea"> Cancelar</button>
+                    </div>
+                </div>
+            </div>
+            <div id="divTarea" class="Tarea">
+                <button id="buttonTarea" class="buttonTarea">Tarea</button>
+                <div class="divModificar">
+                    <input type="text" name="añadirTarea" id="textModificar" class="textModificar" placeholder="Tarea">
+                    <div class="buttonsTarea">
+                        <button id="eliminarTarea" class="buttonModificarTarea"> Eliminar</button>
+                        <button id="guardarTarea" class="buttonModificarTarea"> Guardar</button>
+                        <button id="cancelarTarea" class="buttonModificarTarea"> Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/code.js"></script>
+</body>
+
+</html>
