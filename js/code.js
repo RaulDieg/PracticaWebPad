@@ -6,6 +6,9 @@ const textAñadir = document.getElementById("textAñadir");
 const cancelarAñadir = document.getElementById("cancelarAñadir");
 const cuerpo = document.getElementById("cuerpo");
 
+
+var tareas = [];
+
 $(divAñadir).hide();
 $(divTarea).hide();
 
@@ -16,6 +19,62 @@ buttonAñadir.onclick = function() {
         $(divAñadir).show();
     }
 }
+
+guardarAñadir.onclick = function() {
+
+
+    if ($(textAñadir).val().length == 0) {
+        alert('Debe introducir un nombre a la tarea')
+    } else {
+        //Clonamos la estructura de una tarea
+        var clone = $(divTarea).clone().appendTo($(cuerpo));
+
+        //Cambiamos el id del div
+        clone.removeAttr("id");
+        var string = "div";
+        string = string.concat($(textAñadir).val());
+        clone.attr("id", string);
+
+        //Buscamos el boton de la Tarea y le cambiamos el texto
+        var button = clone.find(".buttonTarea");
+        button.html($(textAñadir).val());
+
+        //FELIX
+        tareas.push($(textAñadir).val());
+        console.log(tareas);
+        //Buscamos la estructura de la tarea y la escondemos
+        var div = clone.find(".divModificar");
+        div.hide();
+
+        //Añadimos la función onclick al boton de la tarea
+        button.bind('click', function() { procesaTarea(div); });
+
+        //Buscamos el input y le cambiamos el texto
+        var text = clone.find(".textModificar");
+        text.attr("placeholder", $(textAñadir).val())
+
+        //Buscamos el div de los botones
+        //Buscamos los botones y le damos una funcionalidad
+        var divButtons = div.find(".buttonsTarea");
+        var auxButton = divButtons.find("#cancelarTarea");
+
+
+        auxButton.bind('click', function() { cancelarTarea(div, text); });
+        auxButton = divButtons.find("#guardarTarea");
+        auxButton.bind('click', function() { guardarTarea(clone, text); });
+        auxButton = divButtons.find("#eliminarTarea");
+        auxButton.bind('click', function() { eliminarTarea(clone); });
+
+
+        //mostramos la tarea creada
+        clone.show();
+
+        //Escondemos el div de añadir una tarea y borramos su input
+        $(textAñadir).attr("value", "");
+        $(divAñadir).hide();
+
+    }
+
 
 cancelarAñadir.onclick = function() {
     $(textAñadir).attr("value", "");
@@ -35,6 +94,12 @@ function eliminarTarea(div) {
 }
 
 function guardarTarea(div, text) {
+
+    //FELIX
+    var old_name = div.attr("id");
+    var clear_old_name = old_name.split("div");
+
+    console.log(clear_old_name);
     //Cambiamos el id del div
     div.removeAttr("id");
     var string = "div";
@@ -44,6 +109,10 @@ function guardarTarea(div, text) {
     //Buscamos el boton de la Tarea y le cambiamos el texto
     var button = div.find(".buttonTarea");
     button.html(text.attr("value"));
+
+        //FELIX
+        tareas.push(text.attr("value"));
+        console.log(tareas);
 
     //Buscamos la estructura de la tarea y la escondemos
     var divaux = div.find(".divModificar");
@@ -63,51 +132,24 @@ function cancelarTarea(div, text) {
 }
 
 
-guardarAñadir.onclick = function() {
+/*
+    function guardar_localStorage(tareas) {
 
-    if ($(textAñadir).val().length == 0) {
-        alert('Debe introducir un nombre a la tarea')
-    } else {
-        //Clonamos la estructura de una tarea
-        var clone = $(divTarea).clone().appendTo($(cuerpo));
 
-        //Cambiamos el id del div
-        clone.removeAttr("id");
-        var string = "div";
-        string = string.concat($(textAñadir).val());
-        clone.attr("id", string);
-
-        //Buscamos el boton de la Tarea y le cambiamos el texto
-        var button = clone.find(".buttonTarea");
-        button.html($(textAñadir).val());
-
-        //Buscamos la estructura de la tarea y la escondemos
-        var div = clone.find(".divModificar");
-        div.hide();
-
-        //Añadimos la función onclick al boton de la tarea
-        button.bind('click', function() { procesaTarea(div); });
-
-        //Buscamos el input y le cambiamos el texto
-        var text = clone.find(".textModificar");
-        text.attr("placeholder", $(textAñadir).val())
-
-        //Buscamos el div de los botones
-        //Buscamos los botones y le damos una funcionalidad
-        var divButtons = div.find(".buttonsTarea");
-        var auxButton = divButtons.find("#cancelarTarea");
-        auxButton.bind('click', function() { cancelarTarea(div, text); });
-        auxButton = divButtons.find("#guardarTarea");
-        auxButton.bind('click', function() { guardarTarea(clone, text); });
-        auxButton = divButtons.find("#eliminarTarea");
-        auxButton.bind('click', function() { eliminarTarea(clone); });
-
-        //mostramos la tarea creada
-        clone.show();
-
-        //Escondemos el div de añadir una tarea y borramos su input
-        $(textAñadir).attr("value", "");
-        $(divAñadir).hide();
-
+        localStorage.setItem("storedTasks", tareas);
+    
     }
+    
+    function cargar_localStorage(tareas) {
+    
+    
+    
+        if(localStorage.getItem("storedTasks")) { 
+    
+            tareas = localStorage.getItem("storedTasks"); 
+        };
+    
+           
+    }
+    */
 }
