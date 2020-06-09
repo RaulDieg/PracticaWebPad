@@ -6,7 +6,6 @@ const textAñadir = document.getElementById("textAñadir");
 const cancelarAñadir = document.getElementById("cancelarAñadir");
 const cuerpo = document.getElementById("cuerpo");
 
-
 var tareas = [];
 
 $(divAñadir).hide();
@@ -42,6 +41,8 @@ guardarAñadir.onclick = function() {
         //FELIX
         tareas.push($(textAñadir).val());
         console.log(tareas);
+        localStorage.setItem('tareas', JSON.stringify(tareas));
+
         //Buscamos la estructura de la tarea y la escondemos
         var div = clone.find(".divModificar");
         div.hide();
@@ -76,80 +77,67 @@ guardarAñadir.onclick = function() {
     }
 
 
-cancelarAñadir.onclick = function() {
-    $(textAñadir).attr("value", "");
-    $(divAñadir).hide();
-}
-
-function procesaTarea(div) {
-    if (div.is(':visible')) {
-        div.hide();
-    } else {
-        div.show();
+    cancelarAñadir.onclick = function() {
+        $(textAñadir).attr("value", "");
+        $(divAñadir).hide();
     }
-}
 
-function eliminarTarea(div) {
-    div.remove();
-}
+    function procesaTarea(div) {
+        if (div.is(':visible')) {
+            div.hide();
+        } else {
+            div.show();
+        }
+    }
 
-function guardarTarea(div, text) {
-
-    //FELIX
-    var old_name = div.attr("id");
-    var clear_old_name = old_name.split("div");
-
-    console.log(clear_old_name);
-    //Cambiamos el id del div
-    div.removeAttr("id");
-    var string = "div";
-    string = string.concat(text.attr("value"));
-    div.attr("id", string);
-
-    //Buscamos el boton de la Tarea y le cambiamos el texto
-    var button = div.find(".buttonTarea");
-    button.html(text.attr("value"));
+    function eliminarTarea(div) {
+        //FELIX
+        var old_name = div.attr("id");
+        var clear_old_name = old_name.slice(3, old_name.lenght);
 
         //FELIX
-        tareas.push(text.attr("value"));
+        tareas.splice(tareas.indexOf(clear_old_name), 1);
+        localStorage.setItem('tareas', JSON.stringify(tareas));
         console.log(tareas);
 
-    //Buscamos la estructura de la tarea y la escondemos
-    var divaux = div.find(".divModificar");
-    divaux.hide();
-
-    //Cambiamos el placeholder del input
-    text.attr("placeholder", text.attr("value"));
-
-    //Borramos el texto del input
-    text.attr("value", "");
-}
-
-function cancelarTarea(div, text) {
-    text.attr("value", "");
-    div.hide();
-
-}
-
-
-/*
-    function guardar_localStorage(tareas) {
-
-
-        localStorage.setItem("storedTasks", tareas);
-    
+        div.remove();
     }
-    
-    function cargar_localStorage(tareas) {
-    
-    
-    
-        if(localStorage.getItem("storedTasks")) { 
-    
-            tareas = localStorage.getItem("storedTasks"); 
-        };
-    
-           
+
+    function guardarTarea(div, text) {
+
+        //FELIX
+        var old_name = div.attr("id");
+        var clear_old_name = old_name.slice(3, old_name.lenght);
+
+        //Cambiamos el id del div
+        div.removeAttr("id");
+        var string = "div";
+        string = string.concat(text.attr("value"));
+        div.attr("id", string);
+
+        //Buscamos el boton de la Tarea y le cambiamos el texto
+        var button = div.find(".buttonTarea");
+        button.html(text.attr("value"));
+
+        //FELIX
+        tareas[tareas.indexOf(clear_old_name)] = text.attr("value");
+        localStorage.setItem('tareas', JSON.stringify(tareas));
+        //console.log(tareas);
+
+        //Buscamos la estructura de la tarea y la escondemos
+        var divaux = div.find(".divModificar");
+        divaux.hide();
+
+        //Cambiamos el placeholder del input
+        text.attr("placeholder", text.attr("value"));
+
+        //Borramos el texto del input
+        text.attr("value", "");
     }
-    */
+
+    function cancelarTarea(div, text) {
+        text.attr("value", "");
+        div.hide();
+
+    }
 }
